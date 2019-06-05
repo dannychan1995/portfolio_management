@@ -85,7 +85,7 @@ class Header extends React.Component {
               <span className="icon-bar" />
             </button>
             <NavLink exact to="/" className="navbar-brand">
-              Project name
+              Portfolio Management
             </NavLink>
           </div>
           <div id="navbar" className="navbar-collapse collapse">
