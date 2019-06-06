@@ -11,7 +11,7 @@ passport.use(
     },
     async function(email, password, done) {
       try {
-        let user = await User.findOne({ email: email });
+        let user = await User.findOne({ email: email }).populate("portfolios");
         if (!user || !user.validPassword(password)) {
           return done(null, false, {
             msg: "Your email or password is invalid"

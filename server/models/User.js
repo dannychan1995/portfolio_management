@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+      Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
@@ -20,7 +21,8 @@ const UserSchema = new mongoose.Schema(
     picture: String,
     hashedPassword: String,
     passwordResetToken: String,
-    passwordResetExpires: Date
+    passwordResetExpires: Date,
+    portfolios: [ { type: Schema.Types.ObjectId, ref: 'Portfolio' } ]
   },
   { timestamps: true }
 );
@@ -78,7 +80,8 @@ UserSchema.methods.toJSON = function() {
     name: this.name,
     email: this.email,
     picture: this.picture,
-    gravatar: this.getGravatar()
+    gravatar: this.getGravatar(),
+    portfolios: this.portfolios
   };
 };
 

@@ -52,7 +52,7 @@ function login(req, res, next) {
 
 async function getCurrentUser(req, res) {
   const userId = req.jwt.userid;
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).populate('portfolios');
 
   return res.status(200).json({ user: user.toJSON() });
 }

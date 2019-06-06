@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import App from "./components/App";
 import Home from "./components/Home";
 import Market from "./components/Market/Market";
+import Portfolio from "./components/Portfolio/Portfolio";
 import NotFound from "./components/NotFound";
 import Login from "./components/Account/Login";
 import Signup from "./components/Account/Signup";
@@ -62,6 +63,11 @@ ReactDOM.render(
             path="/market"
             exact
             render={props => <Market {...props} onUnmount={clearMessages} />}
+          />
+          <Route
+            path="/portfolio"
+            exact
+            render={props => <Portfolio {...props} onUnmount={clearMessages} />}
           />
           <Route
             path="/login"
