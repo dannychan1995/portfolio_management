@@ -95,6 +95,11 @@ class Header extends React.Component {
                   Home
                 </NavLink>
               </li>
+              <li>
+                <NavLink exact to="/market" activeStyle={active}>
+                  Market
+                </NavLink>
+              </li>
             </ul>
             {rightNav}
           </div>

@@ -21,6 +21,7 @@ const envConfig = {
 
 const coreConfig = require("./core");
 const mailgunConfig = require("./mailgun");
+const marketConfig = require("./market");
 let localConfig = {};
 if (isLocal) {
   localConfig = require("./local");
@@ -36,6 +37,7 @@ module.exports = Object.assign(
   envConfig,
   coreConfig,
   mailgunConfig,
+  marketConfig,
   localConfig,
   testConfig
 );
