@@ -80,3 +80,38 @@ export function cashInjection({ amount, portfolioId, token }) {
     });
   };
 }
+export function makeOrder({ order, portfolioId, token }) {
+  return dispatch => {
+    dispatch({
+      type: "CLEAR_MESSAGES"
+    });
+    return fetch(`/api/portfolios/makeOrder`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({order:order, portfolioId:portfolioId})
+    }).then(response => {
+      return response.json().then(json => {
+        if (response.ok) {
+          console.log(json);
+          dispatch({
+            type: "GETPOFOLIO_SUCCESS",
+            portfolio: json.portfolio
+          });
+          dispatch({
+            type: "MESSAGE_SUCCESS",
+            messages: [{msg:"Order success!"}]
+          });
+          // history.push("/");
+        } else {
+          dispatch({
+            type: "SIGNUP_FAILURE",
+            messages: Array.isArray(json) ? json : [json]
+          });
+        }
+      });
+    });
+  };
+}

@@ -35,6 +35,12 @@ class Market extends React.Component {
 		})
 	}
 
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount(this.props.history);
+    }
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -42,7 +48,7 @@ class Market extends React.Component {
         <div className="row">
           <div className="col-sm-12">
             <div className="input-group">
-              <span class="input-group-addon">Symbol : </span>
+              <span className="input-group-addon">Symbol : </span>
               <input type="text"
                 name="symbol"
                 id="symbol"
@@ -71,8 +77,8 @@ class Market extends React.Component {
 
           </div>
           <div className="col-sm-12">
-            {this.props.token && (
-              <Order symbol={this.state.symbol}/>
+            {this.props.token && this.state.data && (
+              <Order symbol={this.state.symbol} price={this.state.data.data[this.state.data.data.length - 1].close}/>
             )}
 
           </div>

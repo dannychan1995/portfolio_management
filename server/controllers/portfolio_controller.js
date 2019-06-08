@@ -34,7 +34,59 @@ async function cashInjection(req, res) {
   return res.status(200).json({ portfolio: portfolio.toJSON() });
 }
 
+async function makeOrder(req, res) {
+  const id = req.body.portfolioId;
+  const order = req.body.order;
+  var portfolio = await Portfolio.findById(id).populate('positions').populate('transactions');
+
+  //new Transactions
+  var transaction = new Transaction({
+    symbol : order.symbol,
+    type : order.type,
+    amount : order.amount,
+    price : order.price,
+  });
+
+  transaction = await transaction.save();
+  portfolio.transactions.push(transaction);
+
+  //new position
+  var position = portfolio.positions.find(e => e.symbol === order.symbol);
+  if(position){ //found position, modify new position
+    position = await Position.findOneAndUpdate({ _id: position._id }, {$inc:{amount: order.amount}, $set:{lastPrice: order.price}}, {new: true});
+    portfolio.cash = portfolio.cash - (order.amount * order.price);
+    portfolio.value = portfolio.positions.reduce((pre,cur) => {
+      let amount = cur.amount;
+      if(cur.symbol === order.symbol){
+
+        return pre + position.amount * position.lastPrice;
+      }else{
+        return pre + cur.amount * cur.lastPrice;
+      }
+    },0) + portfolio.cash;
+    portfolio = await portfolio.save().then(p => p.populate('positions').populate('transactions').execPopulate());
+
+  }else{ //not found position, new one and add to portfolio
+    position = await new Position({
+      symbol : order.symbol,
+      type : order.type,
+      amount : order.amount,
+      lastPrice : order.price,
+    }).save();
+    portfolio.positions.push(position);
+
+    //adjust cashInjection
+    portfolio.cash = portfolio.cash - (order.amount * order.price);
+    portfolio = await portfolio.save().then(p => p.populate('positions').populate('transactions').execPopulate());
+
+
+
+  }
+
+  return res.status(200).json({ portfolio: portfolio.toJSON() });
+}
+
 
 module.exports = {
-  addPortfolio,getPortfolio,cashInjection
+  addPortfolio,getPortfolio,cashInjection,makeOrder
 };

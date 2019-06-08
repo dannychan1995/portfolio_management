@@ -15,6 +15,7 @@ export default function messages(state = {}, action) {
     case "UPDATE_PROFILE_SUCCESS":
     case "CHANGE_PASSWORD_SUCCESS":
     case "RESET_PASSWORD_SUCCESS":
+    case "MESSAGE_SUCCESS":
       return {
         success: action.messages
       };

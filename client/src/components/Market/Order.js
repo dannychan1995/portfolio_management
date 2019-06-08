@@ -4,6 +4,7 @@ import Messages from "../Messages";
 import { object, func, string } from "prop-types";
 import { TypeChooser } from "react-stockcharts/lib/helper";
 import MarketChart from './MarketChart';
+import OrderModal from './OrderModal';
 import { getData } from "./utils"
 
 
@@ -15,7 +16,7 @@ class Order extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { action: "Long" , type: "Stock", amount: 0};
+    this.state = { action: "Long" , type: "Stock", amount: null, price: this.props.price, portfolio: this.props.user.portfolios.length > 0?this.props.user.portfolios[0]:{name:"no"}};
   }
 
   handleChange(event) {
@@ -29,8 +30,9 @@ class Order extends React.Component {
 		})
   }
 
-  componentDidMount() {
-
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.price !== this.props.price)
+      this.setState({price:this.props.price});
 	}
 
   render() {
@@ -42,10 +44,10 @@ class Order extends React.Component {
           </div>
           <div className="panel-body" style={{padding:"10px 25px"}}>
             <Messages messages={this.props.messages} />
-            <div className="row">
-              <div className="col-sm-3">
+            <div style={{display:"flex",alignItems: "center", justifyContent: "space-around"}}>
+              <div style={{width:200}}>
                 <div className="input-group ">
-                  <span class="input-group-addon">Symbol : </span>
+                  <span className="input-group-addon">Symbol : </span>
                   <input disabled type="text"
                     name="amount"
                     className="form-control"
@@ -55,49 +57,35 @@ class Order extends React.Component {
                   />
                 </div>
               </div>
-              <div className="col-sm-2">
+              <div style={{flex:0}}>
                 <div className="input-group ">
-                  <span class="input-group-addon">Action : </span>
+                  <span className="input-group-addon">Portfolio : </span>
                   <div className="input-group-btn dropup">
-                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.action} <span className="caret"></span></button>
+                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.portfolio.name} <span className="caret"></span></button>
                     <ul className="dropdown-menu">
-                      <li><a href="#" name="action" onClick={() => this.setState({action: "Long"})}>Long</a></li>
-                      <li><a href="#" name="action" onClick={() => this.setState({action: "Short"})}>Short</a></li>
+                      {this.props.user.portfolios.map((p,index) => (
+                        <li key={p._id}><a href="#" name="portfolioId" onClick={() => this.setState({portfolio: p})}>{p.name}</a></li>
+                      ))}
                     </ul>
                   </div>
                 </div>
               </div>
-              <div className="col-sm-3">
+              <div style={{width:200}}>
                 <div className="input-group ">
-                  <span class="input-group-addon">Instrument Type :  </span>
-                  <div className="input-group-btn dropup">
-                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.type} <span className="caret"></span></button>
-                    <ul className="dropdown-menu">
-                      <li><a href="#" name="type" onClick={() => this.setState({type: "Stock"})}>Stock</a></li>
-                      <li><a href="#" name="type" onClick={() => this.setState({type: "Bond"})}>Bond</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-sm-3">
-                <div className="input-group ">
-                  <span class="input-group-addon">Amount :  </span>
+                  <span className="input-group-addon">Price : HK$</span>
                   <input type="number"
-                    name="amount"
+                    name="price"
                     className="form-control"
-                    value={this.state.amount}
+                    value={this.state.price}
                     onChange={this.handleChange.bind(this)}
                     aria-label="..."
                     pattern="[0-9]*"
                   />
                 </div>
               </div>
-              <div className="col-sm-1">
+              <div style={{flex:0}}>
                 <div className="input-group ">
-                  <button type="button" className="btn btn-primary">
-                    Confirm
-                  </button>
+                  <OrderModal portfolioId={this.state.portfolio._id} symbol={this.props.symbol} price={this.state.price}/>
                 </div>
               </div>
             </div>
@@ -112,7 +100,8 @@ class Order extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    messages: state.messages
+    messages: state.messages,
+    user: state.auth.user
   };
 };
 

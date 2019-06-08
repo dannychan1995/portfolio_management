@@ -12,7 +12,7 @@ class CashInjectionModal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { cash: this.props.portfolio.cash, amount: 0, type: "1"};
+    this.state = { amount: 0, type: "1"};
   }
 
   handleChange(event) {
@@ -30,27 +30,9 @@ class CashInjectionModal extends React.Component {
     );
   }
 
-  renderPofolioCard(portfolio){
-    return(
-      <div className="col-sm-4" key="portfolio._id">
-        <div className="panel">
-          <div className="panel-body">
-            <h3>{portfolio.name}</h3>
-            <p>
-              {portfolio.description}
-            </p>
-            <a href="#" role="button" className="btn btn-default" onClick={this.handleAddPortfolio.bind(this)}>
-              View details
-            </a>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   render() {
     return (
-      <div style={{marginBottom: 15,display: "flex"}}>
+      <div style={{marginRight: 15,display: "flex"}}>
         <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#CashInjectionModal" className="btn btn-primary">
           Cash Injection
         </button>
@@ -79,7 +61,7 @@ class CashInjectionModal extends React.Component {
                         value={new Intl.NumberFormat(Intl.getCanonicalLocales(), {
                           style: 'currency',
                           currency: 'HKD'
-                        }).format(this.state.cash)}
+                        }).format(this.props.portfolio.cash)}
                         onChange={this.handleChange.bind(this)}
                       />
                     </div>
@@ -100,7 +82,7 @@ class CashInjectionModal extends React.Component {
                       Amount
                     </label>
                     <div className="input-group col-sm-7">
-                      <span class="input-group-addon">HK$ </span>
+                      <span className="input-group-addon">HK$ </span>
                       <input
                         type="number"
                         name="amount"
@@ -130,6 +112,7 @@ class CashInjectionModal extends React.Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
+    portfolio: state.portfolio.portfolio,
   };
 };
 
