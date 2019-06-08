@@ -6,6 +6,7 @@ import CashInjectionModal from "./CashInjectionModal";
 import ValueChart from "./ValueChart";
 import { string, object, func } from "prop-types";
 import { getPortfolio,addPortfolio } from "../../actions/portfolio";
+import OrderModal from '../Market/OrderModal';
 
 class PortfolioDetail extends React.Component {
   static propTypes = {
@@ -21,6 +22,12 @@ class PortfolioDetail extends React.Component {
         token: this.props.token,
       })
     );
+  }
+
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount(this.props.history);
+    }
   }
 
   handleAddPortfolio(event) {
@@ -75,7 +82,6 @@ class PortfolioDetail extends React.Component {
         <Messages messages={this.props.messages} />
         <div className="panel">
           <div className="panel-body">
-            <Messages messages={this.props.messages} />
 
             <h1>{this.props.portfolio.name}</h1>
             <div className="well"><p>{this.props.portfolio.description}</p></div>
@@ -116,102 +122,70 @@ class PortfolioDetail extends React.Component {
               </div>
 
               <div className="form-group">
-                <div className="col-sm-offset-3 col-sm-4">
-                  <CashInjectionModal portfolio={this.props.portfolio}/>
+                <div className="col-sm-offset-3 col-sm-4" style={{display: "flex"}}>
+                  <CashInjectionModal/>  <OrderModal portfolioId={this.props.portfolio._id} />
+
                 </div>
               </div>
             </form>
-            <div className="col-sm-6">
+            <div className="col-sm-6" style={{position: "relative", top: -20, borderLeft: "solid 1px #ddd"}}>
               <ValueChart/>
             </div>
             <legend>Positions</legend>
-            <table class="table table-striped">
+            <table className="table table-striped">
+              <thead>
+                <tr align="right" style={{fontWeight: 700}}>
+                  <td >Type</td>
+                  <td >Symbol</td>
+                  <td >Last Price</td>
+                  <td >Amount</td>
+                  <td >Value</td>
+                </tr>
+              </thead>
+              <tbody>
+                {this.props.portfolio.positions.filter(p => p.amount!==0).map((p,index) => (
+                  <tr align="right" key={p._id} >
+                    <td >{p.type}</td>
+                    <td >{p.symbol}</td>
+                    <td >{this.formatCurrency(p.lastPrice)}</td>
+                    <td >{p.amount}</td>
+                    <td >{this.formatCurrency(p.amount * p.lastPrice)}</td>
+                  </tr>
+                ))}
+              </tbody>
 
-              <tr >
-                <th >Type</th>
-                <th >Symbol</th>
-                <th >Last Price</th>
-                <th >Amount</th>
-                <th >Value</th>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
 
             </table>
             <legend>Transactions</legend>
             <table class="table table-striped">
+              <thead>
 
-              <tr >
-                <th >Type</th>
-                <th >Action</th>
-                <th >Symbol</th>
-                <th >Price</th>
-                <th >Amount</th>
-                <th >Value</th>
-                <th >Transaction time</th>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
-              <tr >
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-                <td >123</td>
-              </tr>
+                <tr align="right" style={{fontWeight: 700}}>
+                  <td >Type</td>
+                  <td >Action</td>
+                  <td >Symbol</td>
+                  <td >Price</td>
+                  <td >Amount</td>
+                  <td >Value</td>
+                  <td >Transaction time</td>
+                </tr>
+              </thead>
+              <tbody>
+                {this.props.portfolio.transactions.map((p,index) => (
+                  <tr align="right" key={p._id}>
+                    <td >{p.type}</td>
+                    <td >{p.amount > 0 ? "Long" : "Short"}</td>
+                    <td >{p.symbol}</td>
+                    <td >{this.formatCurrency(p.price)}</td>
+                    <td >{p.amount}</td>
+                    <td >{this.formatCurrency(p.amount * p.price)}</td>
+                    <td >{ new Date(p.createDate).toLocaleString("en-us", {
+                      weekday: "long", year: "numeric", month: "short",
+                      day: "numeric", hour: "2-digit", minute: "2-digit"
+                    })}</td>
+                  </tr>
+                ))}
+              </tbody>
 
             </table>
           </div>

@@ -38,7 +38,7 @@ class Portfolio extends React.Component {
     }).format(amount)
   }
 
-  renderPofolioCard(portfolio,index){
+  renderPortfolioCard(portfolio,index){
     return(
       <div className="col-sm-4" key={portfolio._id}>
         <div className="panel">
@@ -71,7 +71,7 @@ class Portfolio extends React.Component {
 
         <Messages messages={this.props.messages} />
         <div className="row">
-          {this.props.user.portfolios.map((p,index) => this.renderPofolioCard(p,index))}
+          {this.props.user.portfolios.map((p,index) => this.renderPortfolioCard(p,index))}
 
         </div>
         <PortfolioModal />
