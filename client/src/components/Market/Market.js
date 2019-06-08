@@ -42,6 +42,7 @@ class Market extends React.Component {
         <div className="row">
           <div className="col-sm-12">
             <div className="input-group">
+              <span class="input-group-addon">Symbol : </span>
               <input type="text"
                 name="symbol"
                 id="symbol"

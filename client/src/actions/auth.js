@@ -185,6 +185,33 @@ export function updateProfile({ state, token }) {
     });
   };
 }
+export function getUser({  token }) {
+  return dispatch => {
+    return fetch("/api/user", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+    }).then(response => {
+      if (response.ok) {
+        return response.json().then(json => {
+          dispatch({
+            type: "GETUSER_SUCCESS",
+            user: json.user
+          });
+        });
+      } else {
+        return response.json().then(json => {
+          dispatch({
+            type: "UPDATE_PROFILE_FAILURE",
+            messages: Array.isArray(json) ? json : [json]
+          });
+        });
+      }
+    });
+  };
+}
 
 export function changePassword({ password, confirm, token }) {
   return dispatch => {
