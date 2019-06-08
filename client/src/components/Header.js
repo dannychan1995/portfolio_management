@@ -95,6 +95,20 @@ class Header extends React.Component {
                   Home
                 </NavLink>
               </li>
+              <li>
+                <NavLink exact to="/market" activeStyle={active}>
+                  Market
+                </NavLink>
+              </li>
+              {this.props.token && (
+                <li>
+                  <NavLink exact to="/portfolio" activeStyle={active}>
+                    Portfolio
+                  </NavLink>
+                </li>
+
+              )}
+
             </ul>
             {rightNav}
           </div>

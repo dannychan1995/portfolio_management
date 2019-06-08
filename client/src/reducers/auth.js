@@ -15,6 +15,11 @@ export default function auth(state = initialState, action) {
         token: action.token,
         user: action.user
       });
+    case "ADDPOFOLIO_SUCCESS":
+    case "GETUSER_SUCCESS":
+      return Object.assign({}, state, {
+        user: action.user
+      });
     case "LOGOUT_SUCCESS":
       return initialState;
     default:
