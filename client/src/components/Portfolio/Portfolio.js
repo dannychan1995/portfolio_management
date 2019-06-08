@@ -4,12 +4,21 @@ import Messages from "../Messages";
 import PortfolioModal from "./PortfolioModal";
 import { string, object, func } from "prop-types";
 import { addPortfolio } from "../../actions/portfolio";
+import { getUser } from "../../actions/auth";
 
 class Portfolio extends React.Component {
   static propTypes = {
     messages: object.isRequired,
     token: string.isRequired,
   };
+
+  componentDidMount () {
+    this.props.dispatch(
+      getUser({
+        token: this.props.token,
+      })
+    );
+  }
 
   handleAddPortfolio(event) {
     event.preventDefault();
@@ -21,8 +30,12 @@ class Portfolio extends React.Component {
       })
     );
   }
-  handleViewDetail(id) {
-    console.log(id);
+
+  formatCurrency(amount){
+    return new Intl.NumberFormat(Intl.getCanonicalLocales(), {
+      style: 'currency',
+      currency: 'HKD'
+    }).format(amount)
   }
 
   renderPofolioCard(portfolio,index){
@@ -37,17 +50,11 @@ class Portfolio extends React.Component {
 
             <div style={{display: "flex"}}>
               <div>
-                <span aria-hidden="true"  className="glyphicon glyphicon-usd"> Cash : {new Intl.NumberFormat(Intl.getCanonicalLocales(), {
-                  style: 'currency',
-                  currency: 'HKD'
-                }).format(portfolio.cash)} </span>
-                <span aria-hidden="true"  className="glyphicon glyphicon-stats"> Value : {new Intl.NumberFormat(Intl.getCanonicalLocales(), {
-                  style: 'currency',
-                  currency: 'HKD'
-                }).format(portfolio.value)}</span>
+                <span aria-hidden="true"  className="glyphicon glyphicon-usd"> Cash : {this.formatCurrency(portfolio.cash)} </span>
+                <span aria-hidden="true"  className="glyphicon glyphicon-stats"> Value : {this.formatCurrency(portfolio.value)}</span>
 
               </div>
-              <a href="#" role="button" className="btn btn-default" onClick={this.handleViewDetail(portfolio._id)}>
+              <a href={`/portfolio/${portfolio._id}`} role="button" className="btn btn-default" >
                 View details
               </a>
             </div>

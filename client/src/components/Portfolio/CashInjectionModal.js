@@ -2,32 +2,29 @@ import React from "react";
 import { connect } from "react-redux";
 import Messages from "../Messages";
 import { string, object, func } from "prop-types";
-import { addPortfolio } from "../../actions/portfolio";
+import { cashInjection } from "../../actions/portfolio";
 
-class PortfolioModal extends React.Component {
+class CashInjectionModal extends React.Component {
   static propTypes = {
-    messages: object.isRequired,
+    portfolio: object.isRequired,
     token: string.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = { name: "" , description: "", cash: 0};
+    this.state = { cash: this.props.portfolio.cash, amount: 0, type: "1"};
   }
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleAddPortfolio(event) {
+  handleCashInjection(event) {
     event.preventDefault();
     this.props.dispatch(
-      addPortfolio({
-        portfolio: {
-          name: this.state.name,
-          description: this.state.description,
-          cash: this.state.cash
-        },
+      cashInjection({
+        amount: this.state.amount * this.state.type,
+        portfolioId: this.props.portfolio._id,
         token: this.props.token
       })
     );
@@ -53,73 +50,73 @@ class PortfolioModal extends React.Component {
 
   render() {
     return (
-      <div style={{"marginBottom": 15,display: "flex"}}>
-        <button style={{flex: 1}} type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#portfolioModal">
-          Create Portfolio
+      <div style={{marginBottom: 15,display: "flex"}}>
+        <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#CashInjectionModal" className="btn btn-primary">
+          Cash Injection
         </button>
 
-        <div className="modal fade" id="portfolioModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div className="modal fade" id="CashInjectionModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 className="modal-title" id="myModalLabel">Create Portfolio</h4>
+                <h4 className="modal-title" id="myModalLabel">Cash Injection / Withdrawal</h4>
               </div>
               <div className="modal-body">
-                <form className="form-horizontal">
+                <div className="form-horizontal">
 
                   <div className="form-group">
-                    <label htmlFor="name" className="col-sm-3">
-                      Name
+                    <label className="col-sm-3">
+                      Remaining Cash
                     </label>
                     <div className="col-sm-7">
                       <input
                         type="text"
-                        name="name"
-                        id="name"
-                        className="form-control"
-                        value={this.state.name}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email" className="col-sm-3">
-                      Description
-                    </label>
-                    <div className="col-sm-7">
-                      <input
-                        type="text"
-                        name="description"
-                        id="description"
-                        className="form-control"
-                        value={this.state.description}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email" className="col-sm-3">
-                      Cash
-                    </label>
-                    <div className="col-sm-7">
-                      <input
-                        type="number"
                         name="cash"
                         id="cash"
+                        disabled
                         className="form-control"
-                        value={this.state.cash}
+                        value={new Intl.NumberFormat(Intl.getCanonicalLocales(), {
+                          style: 'currency',
+                          currency: 'HKD'
+                        }).format(this.state.cash)}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label  className="col-sm-3">
+                      Operation
+                    </label>
+                    <div className="col-sm-7">
+                      <div onChange={this.handleChange.bind(this)}>
+                        <input type="radio" value="1" name="type" defaultChecked/> Injection
+                        <input type="radio" value="-1" name="type" style={{marginLeft:10}}/> Withdrawal
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email" className="col-sm-3">
+                      Amount
+                    </label>
+                    <div className="input-group col-sm-7">
+                      <span class="input-group-addon">HK$ </span>
+                      <input
+                        type="number"
+                        name="amount"
+                        id="amount"
+                        className="form-control"
+                        value={this.state.amount}
                         onChange={this.handleChange.bind(this)}
                       />
                     </div>
                   </div>
 
-
-                </form>
+                </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" data-dismiss="modal" onClick={this.handleAddPortfolio.bind(this)} className="btn btn-primary">Save</button>
+                <button type="button" data-dismiss="modal" onClick={this.handleCashInjection.bind(this)} className="btn btn-primary">Confirm</button>
               </div>
             </div>
           </div>
@@ -133,9 +130,7 @@ class PortfolioModal extends React.Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    user: state.auth.user,
-    messages: state.messages
   };
 };
 
-export default connect(mapStateToProps)(PortfolioModal);
+export default connect(mapStateToProps)(CashInjectionModal);

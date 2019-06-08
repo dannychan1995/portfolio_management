@@ -6,6 +6,7 @@ import App from "./components/App";
 import Home from "./components/Home";
 import Market from "./components/Market/Market";
 import Portfolio from "./components/Portfolio/Portfolio";
+import PortfolioDetail from "./components/Portfolio/PortfolioDetail";
 import NotFound from "./components/NotFound";
 import Login from "./components/Account/Login";
 import Signup from "./components/Account/Signup";
@@ -68,6 +69,11 @@ ReactDOM.render(
             path="/portfolio"
             exact
             render={props => <Portfolio {...props} onUnmount={clearMessages} />}
+          />
+          <Route
+            path="/portfolio/:id"
+            exact
+            render={props => <PortfolioDetail {...props} onUnmount={clearMessages} />}
           />
           <Route
             path="/login"
