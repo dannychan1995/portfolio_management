@@ -75,7 +75,7 @@ class Home extends React.Component {
                       <li>Please input Name, Description, and initial cash amount.</li>
                       <li>You can create multiple portfolio if you like.</li>
                     </ol>
-                    <img src="img/portfolio.png" width="70%"></img>
+                    <img src="img/portfolio.png" width="70%" alt=""></img>
                   </div>
                   <div ref={this.market} role="tabpanel" style={{marginTop:20}} id="Market">
                     <h3>Market</h3>
@@ -84,7 +84,7 @@ class Home extends React.Component {
                       <li>You can search any instrument by the symbol. The data is provided by <a target="brank" href="https://www.alphavantage.co/">Alpha Vantage</a>. </li>
                       <li>If you would like to use your own API KEY, please modify MARKET_API_KEY in env file</li>
                     </ul>
-                    <img src="img/market.png" width="70%"></img>
+                    <img src="img/market.png" width="70%" alt=""></img>
                   </div>
                   <div ref={this.order} role="tabpanel"  style={{marginTop:20}} id="Order">
                     <h3>Order</h3>
@@ -92,7 +92,7 @@ class Home extends React.Component {
                       <li>If you want to make a new order, you can just click order button in Market/ Portfolio Detail Page</li>
                       <li>Fill in all information below and click confirm.</li>
                     </ul>
-                    <img src="img/order.png" width="30%"></img>
+                    <img src="img/order.png" width="30%" alt=""></img>
                   </div>
                   <div ref={this.report} role="tabpanel" style={{marginTop:20}} id="Report">
                     <h3>Report</h3>
@@ -101,7 +101,7 @@ class Home extends React.Component {
                       <li>If you want to deposit or withdraw cash from portfolio, you may click Cash Injection button.</li>
                       <li>You can also add dividend for the specific instrument. The system will calculate the valuation for you.</li>
                     </ul>
-                    <img src="img/report.png" width="70%"></img>
+                    <img src="img/report.png" width="70%" alt=""></img>
                   </div>
                 </div>
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import Messages from "../Messages";
 import { string, object, func } from "prop-types";
 import { createDividend } from "../../actions/portfolio";
 
@@ -39,7 +38,7 @@ class InterestModal extends React.Component {
   render() {
     return (
       <div>
-        <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target={`#InterestModal${this.props.position._id}`} className="btn btn-primary">
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`#InterestModal${this.props.position._id}`}>
           Dividend
         </button>
 
@@ -54,7 +53,7 @@ class InterestModal extends React.Component {
                 <div className="form-horizontal">
 
                   <div className="form-group">
-                    <label className="col-sm-3">
+                    <label className="col-sm-4">
                       Symbol
                     </label>
                     <div className="col-sm-7">
@@ -69,7 +68,7 @@ class InterestModal extends React.Component {
                     </div>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="email" className="col-sm-3">
+                    <label htmlFor="email" className="col-sm-4">
                       Dividend per share
                     </label>
                     <div className="input-group col-sm-7">
@@ -85,7 +84,7 @@ class InterestModal extends React.Component {
                     </div>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="email" className="col-sm-3">
+                    <label htmlFor="email" className="col-sm-4">
                       Adjusted Last Price
                     </label>
                     <div style={{width:"58%",display: "flex",justifyContent: "start", alignItems: "center"}} >

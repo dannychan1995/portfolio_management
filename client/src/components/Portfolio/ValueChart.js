@@ -1,4 +1,4 @@
-import React, { createRef, Component } from "react";
+import React, { Component } from "react";
 import Chart from 'react-google-charts';
 import { connect } from "react-redux";
 
@@ -38,7 +38,7 @@ const genChartData = (portfolio) => {
       }else{
         data[p.type] = Math.abs(p.amount) * p.lastPrice;
       }
-    }    
+    }
   })
 
   return Object.keys(data).map(function(key) {

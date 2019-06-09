@@ -1,6 +1,41 @@
+
 # README
 
 ### Demo : https://portfolio-management-dannychan.herokuapp.com/login
+
+## Getting Started
+<div>
+    <div style="font-size: 15px; padding: 20px 0px;">
+        <div role="tabpanel" id="Portfolio">
+            <h3>Portfolio</h3>
+            <ol>
+                <li>To start with, please <a href="https://portfolio-management-dannychan.herokuapp.com/signup">signup</a> first.</li>
+                <li>You can create portfolio at <a href="https://portfolio-management-dannychan.herokuapp.com/portfolio">portfolio page</a>.</li>
+                <li>Please input Name, Description, and initial cash amount.</li>
+                <li>You can create multiple portfolio if you like.</li>
+            </ol><img src="https://portfolio-management-dannychan.herokuapp.com/img/portfolio.png" width="70%" alt=""></div>
+        <div role="tabpanel" id="Market" style="margin-top: 20px;">
+            <h3>Market</h3>
+            <ul>
+                <li>You may explore the market in <a href="https://portfolio-management-dannychan.herokuapp.com/market">market page</a></li>
+                <li>You can search any instrument by the symbol. The data is provided by <a target="brank" href="https://www.alphavantage.co/">Alpha Vantage</a>. </li>
+                <li>If you would like to use your own API KEY, please modify MARKET_API_KEY in env file</li>
+            </ul><img src="https://portfolio-management-dannychan.herokuapp.com/img/market.png" width="70%" alt=""></div>
+        <div role="tabpanel" id="Order" style="margin-top: 20px;">
+            <h3>Order</h3>
+            <ul>
+                <li>If you want to make a new order, you can just click order button in Market/ Portfolio Detail Page</li>
+                <li>Fill in all information below and click confirm.</li>
+            </ul><img src="https://portfolio-management-dannychan.herokuapp.com/img/order.png" width="30%" alt=""></div>
+        <div role="tabpanel" id="Report" style="margin-top: 20px;">
+            <h3>Report</h3>
+            <ul>
+                <li>In Portfolio Detail Page, you may find Valuation, Remaining Position and Transaction Record.</li>
+                <li>If you want to deposit or withdraw cash from portfolio, you may click Cash Injection button.</li>
+                <li>You can also add dividend for the specific instrument. The system will calculate the valuation for you.</li>
+            </ul><img src="https://portfolio-management-dannychan.herokuapp.com/img/report.png" width="70%" alt=""></div>
+    </div>
+</div>
 
 ## Required Plugins for VS Code
 

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Messages from "../Messages";
 import PortfolioModal from "./PortfolioModal";
-import { string, object, func } from "prop-types";
+import { string, object } from "prop-types";
 import { addPortfolio } from "../../actions/portfolio";
 import { getUser } from "../../actions/auth";
 
@@ -49,7 +49,7 @@ class Portfolio extends React.Component {
             </p>
 
             <div style={{display: "flex",justifyContent:"space-between"}}>
-              <dl class="dl-horizontal" style={{margin: 0}}>
+              <dl className="dl-horizontal" style={{margin: 0}}>
                 <dt style={{textAlign:"left"}}><span aria-hidden="true"  className="glyphicon glyphicon-usd"> Cash : </span></dt><dd style={{textAlign:"right"}}>{this.formatCurrency(portfolio.cash)}</dd>
                 <dt style={{textAlign:"left"}}><span aria-hidden="true"  className="glyphicon glyphicon-stats"> Market Value : </span></dt><dd style={{textAlign:"right"}}>{this.formatCurrency(portfolio.value)}</dd>
               </dl>
