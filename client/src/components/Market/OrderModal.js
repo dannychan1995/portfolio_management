@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Messages from "../Messages";
-import { string, object, func } from "prop-types";
+import { string, object } from "prop-types";
 import { getPortfolio, makeOrder } from "../../actions/portfolio";
 
 class OrderModal extends React.Component {
@@ -63,7 +62,7 @@ class OrderModal extends React.Component {
   render() {
     return (
       <div>
-        <a type="button" disabled={this.props.portfolioId==="empty"?"disabled":""} onClick={this.getPortfolio.bind(this)} className="btn btn-primary btn-lg" data-toggle="modal" data-target="#OrderModal" className="btn btn-primary">
+        <a type="button" disabled={this.props.portfolioId==="empty"?"disabled":""} onClick={this.getPortfolio.bind(this)} className="btn btn-primary" data-toggle="modal" data-target="#OrderModal">
           Order
         </a>
 
@@ -138,7 +137,7 @@ class OrderModal extends React.Component {
                         <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.type} <span className="caret"></span></button>
                         <ul className="dropdown-menu">
                           {this.types.map((i,index) => (
-                            <li key={i}><a href="#" name="type" onClick={() => this.setState({type: i})}>{i}</a></li>
+                            <li key={i}><a name="type" onClick={() => this.setState({type: i})}>{i}</a></li>
                           ))}
                         </ul>
                       </div>

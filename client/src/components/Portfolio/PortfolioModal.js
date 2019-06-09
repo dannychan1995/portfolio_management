@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Messages from "../Messages";
-import { string, object, func } from "prop-types";
+import { string, object } from "prop-types";
 import { addPortfolio } from "../../actions/portfolio";
 
 class PortfolioModal extends React.Component {
@@ -42,7 +41,7 @@ class PortfolioModal extends React.Component {
             <p>
               {portfolio.description}
             </p>
-            <a href="#" role="button" className="btn btn-default" onClick={this.handleAddPortfolio.bind(this)}>
+            <a href="" role="button" className="btn btn-default" onClick={this.handleAddPortfolio.bind(this)}>
               View details
             </a>
           </div>
@@ -54,7 +53,7 @@ class PortfolioModal extends React.Component {
   render() {
     return (
       <div style={{"marginBottom": 15,display: "flex"}}>
-        <button style={{flex: 1}} type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#portfolioModal">
+        <button style={{flex: 1}} type="button" className="btn btn-primary" data-toggle="modal" data-target="#portfolioModal">
           Create Portfolio
         </button>
 

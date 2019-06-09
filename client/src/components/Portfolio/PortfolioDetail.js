@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import Messages from "../Messages";
-import PortfolioModal from "./PortfolioModal";
 import CashInjectionModal from "./CashInjectionModal";
 import ValueChart from "./ValueChart";
-import { string, object, func } from "prop-types";
+import { string, object } from "prop-types";
 import { getPortfolio,addPortfolio } from "../../actions/portfolio";
 import OrderModal from '../Market/OrderModal';
 import InterestModal from './InterestModal';
@@ -57,7 +56,7 @@ class PortfolioDetail extends React.Component {
         <div className="panel">
           <div className="panel-body">
 
-            <h1>{this.props.portfolio.name}</h1>
+            <h1 style={{marginBottom:20}}>{this.props.portfolio.name}</h1>
             <div className="well"><p>{this.props.portfolio.description}</p></div>
             <legend>Valuation</legend>
             <form className="form-horizontal col-sm-8">
@@ -141,7 +140,7 @@ class PortfolioDetail extends React.Component {
 
             </table>
             <legend>Transactions</legend>
-            <table class="table table-striped">
+            <table className="table table-striped">
               <thead>
 
                 <tr align="right" style={{fontWeight: 700}}>

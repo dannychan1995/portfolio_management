@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Messages from "../Messages";
-import { object, func, string } from "prop-types";
-import { TypeChooser } from "react-stockcharts/lib/helper";
+import { object, string } from "prop-types";
 import MarketChart from './MarketChart';
 import Order from './Order';
 import { getData } from "./utils"

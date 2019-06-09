@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Messages from "../Messages";
-import { object, func, string } from "prop-types";
-import { TypeChooser } from "react-stockcharts/lib/helper";
-import MarketChart from './MarketChart';
+import { object, string } from "prop-types";
 import OrderModal from './OrderModal';
 import { getData } from "./utils"
 
@@ -64,7 +62,7 @@ class Order extends React.Component {
                     <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.portfolio.name} <span className="caret"></span></button>
                     <ul className="dropdown-menu">
                       {this.props.user.portfolios.map((p,index) => (
-                        <li key={p._id}><a href="#" name="portfolioId" onClick={() => this.setState({portfolio: p})}>{p.name}</a></li>
+                        <li key={p._id}><a href="" name="portfolioId" onClick={() => this.setState({portfolio: p})}>{p.name}</a></li>
                       ))}
                       {this.props.user.portfolios.length === 0 && (
                         <li ><a href="/portfolio" name="portfolioId" >New Portfolio</a></li>

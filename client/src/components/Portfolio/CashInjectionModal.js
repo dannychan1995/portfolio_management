@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Messages from "../Messages";
-import { string, object, func } from "prop-types";
+import { string, object } from "prop-types";
 import { cashInjection } from "../../actions/portfolio";
 
 class CashInjectionModal extends React.Component {
@@ -33,7 +32,7 @@ class CashInjectionModal extends React.Component {
   render() {
     return (
       <div style={{marginRight: 15,display: "flex"}}>
-        <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#CashInjectionModal" className="btn btn-primary">
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#CashInjectionModal">
           Cash Injection
         </button>
 
