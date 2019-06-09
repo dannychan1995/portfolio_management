@@ -1,7 +1,7 @@
 
 # README
 
-### Demo : https://portfolio-management-dannychan.herokuapp.com/login
+### Demo : https://portfolio-management-dannychan.herokuapp.com
 
 ## Getting Started
 <div>
