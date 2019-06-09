@@ -86,7 +86,42 @@ async function makeOrder(req, res) {
   return res.status(200).json({ portfolio: portfolio.toJSON() });
 }
 
+async function createDividend(req, res) {
+  const {symbol,dividend,amount,newPrice,portfolioId} = req.body;
+  var portfolio = await Portfolio.findById(portfolioId).populate('positions').populate('transactions');
+  console.log(symbol,dividend,amount,newPrice,portfolioId);
+  //new Transactions
+  var transaction = new Transaction({
+    symbol : symbol,
+    type : "Dividend",
+    amount : amount,
+    price : dividend,
+  });
+
+  transaction = await transaction.save();
+  portfolio.transactions.push(transaction);
+
+  //new position
+  var position = portfolio.positions.find(e => e.symbol === symbol);
+  if(position){ //found position, modify new position
+    position = await Position.findOneAndUpdate({ _id: position._id }, {$set:{lastPrice: newPrice}}, {new: true});
+    portfolio.cash = portfolio.cash + (amount * dividend);
+    portfolio.value = portfolio.positions.reduce((pre,cur) => {
+      let amount = cur.amount;
+      if(cur.symbol === symbol){
+
+        return pre + position.amount * position.lastPrice;
+      }else{
+        return pre + cur.amount * cur.lastPrice;
+      }
+    },0) + portfolio.cash;
+    portfolio = await portfolio.save().then(p => p.populate('positions').populate('transactions').execPopulate());
+
+  }
+  return res.status(200).json({ portfolio: portfolio.toJSON() });
+}
+
 
 module.exports = {
-  addPortfolio,getPortfolio,cashInjection,makeOrder
+  addPortfolio,getPortfolio,cashInjection,makeOrder,createDividend
 };

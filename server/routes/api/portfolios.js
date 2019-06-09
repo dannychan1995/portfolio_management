@@ -4,13 +4,15 @@ const {
   addPortfolio,
   getPortfolio,
   cashInjection,
-  makeOrder
+  makeOrder,
+  createDividend
 } = require("../../controllers/portfolio_controller");
 
 const jwt = require("../../middlewares/jwt_middleware");
 
 router.post("/portfolios", jwt.required, handleAsyncError(addPortfolio));
 router.post("/portfolios/cashInjection", jwt.required, handleAsyncError(cashInjection));
+router.post("/portfolios/createDividend", jwt.required, handleAsyncError(createDividend));
 router.post("/portfolios/makeOrder", jwt.required, handleAsyncError(makeOrder));
 router.get("/portfolios/:id", jwt.required, handleAsyncError(getPortfolio));
 

@@ -40,7 +40,7 @@ class Portfolio extends React.Component {
 
   renderPortfolioCard(portfolio,index){
     return(
-      <div className="col-sm-4" key={portfolio._id}>
+      <div key={portfolio._id} style={{width: "100%", display: "inline-block"}}>
         <div className="panel">
           <div className="panel-body">
             <h3>{portfolio.name}</h3>
@@ -48,12 +48,12 @@ class Portfolio extends React.Component {
               {portfolio.description}
             </p>
 
-            <div style={{display: "flex"}}>
-              <div>
-                <span aria-hidden="true"  className="glyphicon glyphicon-usd"> Cash : {this.formatCurrency(portfolio.cash)} </span>
-                <span aria-hidden="true"  className="glyphicon glyphicon-stats"> Value : {this.formatCurrency(portfolio.value)}</span>
+            <div style={{display: "flex",justifyContent:"space-between"}}>
+              <dl class="dl-horizontal" style={{margin: 0}}>
+                <dt style={{textAlign:"left"}}><span aria-hidden="true"  className="glyphicon glyphicon-usd"> Cash : </span></dt><dd style={{textAlign:"right"}}>{this.formatCurrency(portfolio.cash)}</dd>
+                <dt style={{textAlign:"left"}}><span aria-hidden="true"  className="glyphicon glyphicon-stats"> Market Value : </span></dt><dd style={{textAlign:"right"}}>{this.formatCurrency(portfolio.value)}</dd>
+              </dl>
 
-              </div>
               <a href={`/portfolio/${portfolio._id}`} role="button" className="btn btn-default" >
                 View details
               </a>
@@ -70,7 +70,7 @@ class Portfolio extends React.Component {
       <div className="container-fluid">
 
         <Messages messages={this.props.messages} />
-        <div className="row">
+        <div style={{columnCount: 1,columnGap: "1%"}}>
           {this.props.user.portfolios.map((p,index) => this.renderPortfolioCard(p,index))}
 
         </div>
