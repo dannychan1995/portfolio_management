@@ -63,9 +63,9 @@ class OrderModal extends React.Component {
   render() {
     return (
       <div>
-        <button type="button" onClick={this.getPortfolio.bind(this)} className="btn btn-primary btn-lg" data-toggle="modal" data-target="#OrderModal" className="btn btn-primary">
+        <a type="button" disabled={this.props.portfolioId==="empty"?"disabled":""} onClick={this.getPortfolio.bind(this)} className="btn btn-primary btn-lg" data-toggle="modal" data-target="#OrderModal" className="btn btn-primary">
           Order
-        </button>
+        </a>
 
         <div className="modal fade" id="OrderModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog" role="document">
@@ -157,7 +157,7 @@ class OrderModal extends React.Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="email" className="col-sm-3">
-                      Amount
+                      Quantity
                     </label>
                     <div className="input-group col-sm-7">
                       <input

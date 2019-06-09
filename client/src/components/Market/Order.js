@@ -16,7 +16,7 @@ class Order extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { action: "Long" , type: "Stock", amount: null, price: this.props.price, portfolio: this.props.user.portfolios.length > 0?this.props.user.portfolios[0]:{name:"no"}};
+    this.state = { action: "Long" , type: "Stock", amount: null, price: this.props.price, portfolio: this.props.user.portfolios.length > 0?this.props.user.portfolios[0]:{_id:"empty",name:"no"}};
   }
 
   handleChange(event) {
@@ -66,6 +66,9 @@ class Order extends React.Component {
                       {this.props.user.portfolios.map((p,index) => (
                         <li key={p._id}><a href="#" name="portfolioId" onClick={() => this.setState({portfolio: p})}>{p.name}</a></li>
                       ))}
+                      {this.props.user.portfolios.length === 0 && (
+                        <li ><a href="/portfolio" name="portfolioId" >New Portfolio</a></li>
+                      )}
                     </ul>
                   </div>
                 </div>

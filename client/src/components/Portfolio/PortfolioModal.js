@@ -88,7 +88,7 @@ class PortfolioModal extends React.Component {
                       Description
                     </label>
                     <div className="col-sm-7">
-                      <input
+                      <textarea
                         type="text"
                         name="description"
                         id="description"

@@ -69,6 +69,41 @@ export function cashInjection({ amount, portfolioId, token }) {
             type: "GETPOFOLIO_SUCCESS",
             portfolio: json.portfolio
           });
+          dispatch({
+            type: "MESSAGE_SUCCESS",
+            messages: [{msg:"Success!"}]
+          });
+          // history.push("/");
+        } else {
+          dispatch({
+            type: "SIGNUP_FAILURE",
+            messages: Array.isArray(json) ? json : [json]
+          });
+        }
+      });
+    });
+  };
+}
+export function createDividend({ dividend, amount,newPrice, symbol, portfolioId, token }) {
+  return dispatch => {
+    return fetch(`/api/portfolios/createDividend`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({dividend:dividend,amount:amount, newPrice:newPrice, symbol:symbol, portfolioId:portfolioId})
+    }).then(response => {
+      return response.json().then(json => {
+        if (response.ok) {
+          dispatch({
+            type: "GETPOFOLIO_SUCCESS",
+            portfolio: json.portfolio
+          });
+          dispatch({
+            type: "MESSAGE_SUCCESS",
+            messages: [{msg:"Add dividend success!"}]
+          });
           // history.push("/");
         } else {
           dispatch({

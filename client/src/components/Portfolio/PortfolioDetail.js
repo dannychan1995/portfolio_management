@@ -7,6 +7,7 @@ import ValueChart from "./ValueChart";
 import { string, object, func } from "prop-types";
 import { getPortfolio,addPortfolio } from "../../actions/portfolio";
 import OrderModal from '../Market/OrderModal';
+import InterestModal from './InterestModal';
 
 class PortfolioDetail extends React.Component {
   static propTypes = {
@@ -48,33 +49,6 @@ class PortfolioDetail extends React.Component {
     }).format(amount)
   }
 
-  renderPofolioCard(portfolio,index){
-    return(
-      <div className="col-sm-4" key={portfolio._id}>
-        <div className="panel">
-          <div className="panel-body">
-            <h3>{portfolio.name}</h3>
-            <p>
-              {portfolio.description}
-            </p>
-
-            <div style={{display: "flex"}}>
-              <div>
-                <span aria-hidden="true"  className="glyphicon glyphicon-usd"> Cash : {this.formatCurrency(portfolio.cash)} </span>
-                <span aria-hidden="true"  className="glyphicon glyphicon-stats"> Value : {this.formatCurrency(portfolio.value)}</span>
-
-              </div>
-              <a href={`/reset/${portfolio._id}`} role="button" className="btn btn-default" >
-                View details
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   render() {
     return (
       <div className="container-fluid">
@@ -86,7 +60,7 @@ class PortfolioDetail extends React.Component {
             <h1>{this.props.portfolio.name}</h1>
             <div className="well"><p>{this.props.portfolio.description}</p></div>
             <legend>Valuation</legend>
-            <form className="form-horizontal col-sm-6">
+            <form className="form-horizontal col-sm-8">
 
               <div className="form-group">
                 <label className="col-sm-3">
@@ -106,7 +80,7 @@ class PortfolioDetail extends React.Component {
               </div>
               <div className="form-group">
                 <label htmlFor="name" className="col-sm-3">
-                  Value
+                  Market Value
                 </label>
                 <div className="col-sm-7">
                   <input
@@ -128,7 +102,7 @@ class PortfolioDetail extends React.Component {
                 </div>
               </div>
             </form>
-            <div className="col-sm-6" style={{position: "relative", top: -20, borderLeft: "solid 1px #ddd"}}>
+            <div className="col-sm-4" style={{position: "relative", top: -20, borderLeft: "solid 1px #ddd"}}>
               <ValueChart/>
             </div>
             <legend>Positions</legend>
@@ -138,8 +112,9 @@ class PortfolioDetail extends React.Component {
                   <td >Type</td>
                   <td >Symbol</td>
                   <td >Last Price</td>
-                  <td >Amount</td>
-                  <td >Value</td>
+                  <td >Quantity</td>
+                  <td >Market Value</td>
+                  <td align="center">Operation</td>
                 </tr>
               </thead>
               <tbody>
@@ -150,8 +125,17 @@ class PortfolioDetail extends React.Component {
                     <td >{this.formatCurrency(p.lastPrice)}</td>
                     <td >{p.amount}</td>
                     <td >{this.formatCurrency(p.amount * p.lastPrice)}</td>
+                    <td align="center"><InterestModal position={p} /></td>
                   </tr>
                 ))}
+                <tr align="right" >
+                  <td ></td>
+                  <td ></td>
+                  <td ></td>
+                  <td ><b>Sum: </b></td>
+                  <td ><b>{this.formatCurrency(this.props.portfolio.positions.reduce((pre,cur) => pre + cur.amount*cur.lastPrice,0))}</b></td>
+                  <td align="center"></td>
+                </tr>
               </tbody>
 
 
@@ -165,8 +149,8 @@ class PortfolioDetail extends React.Component {
                   <td >Action</td>
                   <td >Symbol</td>
                   <td >Price</td>
-                  <td >Amount</td>
-                  <td >Value</td>
+                  <td >Quantity</td>
+                  <td >Market Value</td>
                   <td >Transaction time</td>
                 </tr>
               </thead>
@@ -174,7 +158,7 @@ class PortfolioDetail extends React.Component {
                 {this.props.portfolio.transactions.map((p,index) => (
                   <tr align="right" key={p._id}>
                     <td >{p.type}</td>
-                    <td >{p.amount > 0 ? "Long" : "Short"}</td>
+                    <td >{p.type === "Dividend"? "Dividend" : (p.amount > 0 ? "Long" : "Short")}</td>
                     <td >{p.symbol}</td>
                     <td >{this.formatCurrency(p.price)}</td>
                     <td >{p.amount}</td>
