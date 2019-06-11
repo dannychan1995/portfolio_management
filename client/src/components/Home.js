@@ -32,7 +32,7 @@ class Home extends React.Component {
         <Messages messages={this.props.messages} />
         <div className="jumbotron" style={JumbotronStyle}>
           <h1>Portfolio Management System</h1>
-          <p style={{color:"#eee"}}>This is a React practising project which aims at creating a portfolio management system. The system can support mulitple portfolio and transaction. To start with, you may need to <a style={{color: "#9be8ea"}} href="/signup">signup</a> and create a portfolio first.</p>
+          <p style={{color:"#eee"}}>This is a React practising project which aims at creating a portfolio management system. The system can support multiple portfolio and transaction. To start with, you may need to <a style={{color: "#9be8ea"}} href="/signup">signup</a> and create a portfolio first.</p>
           <p><a className="btn btn-primary btn-lg" onClick={this.handleScrollToElement.bind(this,this.feature)} role="button">Learn more</a></p>
         </div>
         <div ref={this.feature} >
@@ -42,7 +42,7 @@ class Home extends React.Component {
               <div style={{display:"flex",justifyContent: "space-between"}}>
                 <div onClick={this.handleScrollToElement.bind(this,this.start)} style={{...featureCard,background:"linear-gradient(rgba(174, 226, 228, 0.38) 0%, rgba(76, 175, 80, 0.19) 100%)"}}>
                   <div><i className="glyphicon glyphicon-folder-open"></i></div>
-                  <div style={{fontSize: 20}}>Manage mulitple portfolio</div>
+                  <div style={{fontSize: 20}}>Manage multiple portfolio</div>
                 </div>
                 <div onClick={this.handleScrollToElement.bind(this,this.market)} style={{...featureCard,background:"linear-gradient(rgba(182, 228, 174, 0.38) 0%, rgba(0, 150, 136, 0.19) 100%)"}}>
                   <div><i className="glyphicon glyphicon-globe"></i></div>
