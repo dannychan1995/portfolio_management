@@ -33,9 +33,10 @@ if (isProduction) {
 if (!isProduction) {
   app.use(errorhandler());
 }
-
+console.log(`Mongoose: ${mongoose.version}`);
 if (!isMongooseConnectionProvided) {
-  mongoose.connect(dbUri);
+  mongoose.connect(dbUri, { useNewUrlParser: true });
+  mongoose.Promise = global.Promise;
   if (!isProduction) {
     mongoose.set("debug", true);
   }
