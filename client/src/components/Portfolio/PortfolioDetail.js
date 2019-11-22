@@ -4,22 +4,22 @@ import Messages from "../Messages";
 import CashInjectionModal from "./CashInjectionModal";
 import ValueChart from "./ValueChart";
 import { string, object } from "prop-types";
-import { getPortfolio,addPortfolio } from "../../actions/portfolio";
-import OrderModal from '../Market/OrderModal';
-import InterestModal from './InterestModal';
+import { getPortfolio, addPortfolio } from "../../actions/portfolio";
+import OrderModal from "../Market/OrderModal";
+import InterestModal from "./InterestModal";
 
 class PortfolioDetail extends React.Component {
   static propTypes = {
     messages: object.isRequired,
     token: string.isRequired,
-    portfolio: object.isRequired,
+    portfolio: object.isRequired
   };
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.dispatch(
       getPortfolio({
         id: this.props.match.params.id,
-        token: this.props.token,
+        token: this.props.token
       })
     );
   }
@@ -41,33 +41,33 @@ class PortfolioDetail extends React.Component {
     );
   }
 
-  formatCurrency(amount){
+  formatCurrency(amount) {
     return new Intl.NumberFormat(Intl.getCanonicalLocales(), {
-      style: 'currency',
-      currency: 'HKD'
-    }).format(amount)
+      style: "currency",
+      currency: "HKD"
+    }).format(amount);
   }
 
   render() {
+    if (!this.props.portfolio.positions) {
+      return null;
+    }
     return (
       <div className="container-fluid">
-
         <Messages messages={this.props.messages} />
         <div className="panel">
           <div className="panel-body">
-
-            <h1 style={{marginBottom:20}}>{this.props.portfolio.name}</h1>
-            <div className="well"><p>{this.props.portfolio.description}</p></div>
+            <h1 style={{ marginBottom: 20 }}>{this.props.portfolio.name}</h1>
+            <div className="well">
+              <p>{this.props.portfolio.description}</p>
+            </div>
             <legend>Valuation</legend>
             <form className="form-horizontal col-sm-8">
-
               <div className="form-group">
-                <label className="col-sm-3">
-                  Cash
-                </label>
+                <label className="col-sm-3">Cash</label>
                 <div className="col-sm-7">
                   <input
-                    style={{textAlign:"right"}}
+                    style={{ textAlign: "right" }}
                     type="text"
                     name="cash"
                     id="cash"
@@ -83,7 +83,7 @@ class PortfolioDetail extends React.Component {
                 </label>
                 <div className="col-sm-7">
                   <input
-                    style={{textAlign:"right"}}
+                    style={{ textAlign: "right" }}
                     type="text"
                     name="value"
                     id="value"
@@ -95,81 +95,112 @@ class PortfolioDetail extends React.Component {
               </div>
 
               <div className="form-group">
-                <div className="col-sm-offset-3 col-sm-4" style={{display: "flex"}}>
-                  <CashInjectionModal/>  <OrderModal portfolioId={this.props.portfolio._id} />
-
+                <div
+                  className="col-sm-offset-3 col-sm-4"
+                  style={{ display: "flex" }}
+                >
+                  <CashInjectionModal />{" "}
+                  <OrderModal portfolioId={this.props.portfolio._id} />
                 </div>
               </div>
             </form>
-            <div className="col-sm-4" style={{position: "relative", top: -20, borderLeft: "solid 1px #ddd"}}>
-              <ValueChart/>
+            <div
+              className="col-sm-4"
+              style={{
+                position: "relative",
+                top: -20,
+                borderLeft: "solid 1px #ddd"
+              }}
+            >
+              <ValueChart />
             </div>
             <legend>Positions</legend>
             <table className="table table-striped">
               <thead>
-                <tr align="right" style={{fontWeight: 700}}>
-                  <td >Type</td>
-                  <td >Symbol</td>
-                  <td >Last Price</td>
-                  <td >Quantity</td>
-                  <td >Market Value</td>
+                <tr align="right" style={{ fontWeight: 700 }}>
+                  <td>Type</td>
+                  <td>Symbol</td>
+                  <td>Last Price</td>
+                  <td>Quantity</td>
+                  <td>Market Value</td>
                   <td align="center">Operation</td>
                 </tr>
               </thead>
               <tbody>
-                {this.props.portfolio.positions.filter(p => p.amount!==0).map((p,index) => (
-                  <tr align="right" key={p._id} >
-                    <td >{p.type}</td>
-                    <td >{p.symbol}</td>
-                    <td >{this.formatCurrency(p.lastPrice)}</td>
-                    <td >{p.amount}</td>
-                    <td >{this.formatCurrency(p.amount * p.lastPrice)}</td>
-                    <td align="center"><InterestModal position={p} /></td>
-                  </tr>
-                ))}
-                <tr align="right" >
-                  <td ></td>
-                  <td ></td>
-                  <td ></td>
-                  <td ><b>Sum: </b></td>
-                  <td ><b>{this.formatCurrency(this.props.portfolio.positions.reduce((pre,cur) => pre + cur.amount*cur.lastPrice,0))}</b></td>
-                  <td align="center"></td>
+                {this.props.portfolio.positions
+                  .filter(p => p.amount !== 0)
+                  .map((p, index) => (
+                    <tr align="right" key={p._id}>
+                      <td>{p.type}</td>
+                      <td>{p.symbol}</td>
+                      <td>{this.formatCurrency(p.lastPrice)}</td>
+                      <td>{p.amount}</td>
+                      <td>{this.formatCurrency(p.amount * p.lastPrice)}</td>
+                      <td align="center">
+                        <InterestModal position={p} />
+                      </td>
+                    </tr>
+                  ))}
+                <tr align="right">
+                  <td />
+                  <td />
+                  <td />
+                  <td>
+                    <b>Sum: </b>
+                  </td>
+                  <td>
+                    <b>
+                      {this.formatCurrency(
+                        this.props.portfolio.positions.reduce(
+                          (pre, cur) => pre + cur.amount * cur.lastPrice,
+                          0
+                        )
+                      )}
+                    </b>
+                  </td>
+                  <td align="center" />
                 </tr>
               </tbody>
-
-
             </table>
             <legend>Transactions</legend>
             <table className="table table-striped">
               <thead>
-
-                <tr align="right" style={{fontWeight: 700}}>
-                  <td >Type</td>
-                  <td >Action</td>
-                  <td >Symbol</td>
-                  <td >Price</td>
-                  <td >Quantity</td>
-                  <td >Market Value</td>
-                  <td >Transaction time</td>
+                <tr align="right" style={{ fontWeight: 700 }}>
+                  <td>Type</td>
+                  <td>Action</td>
+                  <td>Symbol</td>
+                  <td>Price</td>
+                  <td>Quantity</td>
+                  <td>Market Value</td>
+                  <td>Transaction time</td>
                 </tr>
               </thead>
               <tbody>
-                {this.props.portfolio.transactions.map((p,index) => (
+                {this.props.portfolio.transactions.map((p, index) => (
                   <tr align="right" key={p._id}>
-                    <td >{p.type}</td>
-                    <td >{p.type === "Dividend"? "Dividend" : (p.amount > 0 ? "Long" : "Short")}</td>
-                    <td >{p.symbol}</td>
-                    <td >{this.formatCurrency(p.price)}</td>
-                    <td >{p.amount}</td>
-                    <td >{this.formatCurrency(p.amount * p.price)}</td>
-                    <td >{ new Date(p.createDate).toLocaleString("en-us", {
-                      weekday: "long", year: "numeric", month: "short",
-                      day: "numeric", hour: "2-digit", minute: "2-digit"
-                    })}</td>
+                    <td>{p.type}</td>
+                    <td>
+                      {p.type === "Dividend"
+                        ? "Dividend"
+                        : p.amount > 0 ? "Long" : "Short"}
+                    </td>
+                    <td>{p.symbol}</td>
+                    <td>{this.formatCurrency(p.price)}</td>
+                    <td>{p.amount}</td>
+                    <td>{this.formatCurrency(p.amount * p.price)}</td>
+                    <td>
+                      {new Date(p.createDate).toLocaleString("en-us", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                    </td>
                   </tr>
                 ))}
               </tbody>
-
             </table>
           </div>
         </div>
