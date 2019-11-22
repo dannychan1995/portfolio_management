@@ -8,14 +8,11 @@
     "test": "(cd client && CI=true yarn test) && (cd server && yarn test)",
     "build": "concurrently \"cd client && yarn build\"",
     "heroku-postbuild": "yarn build",
-    "start": "concurrently --kill-others-on-fail \"yarn start:dev:server\" \"yarn start:client\"",
+    "start":
+      "concurrently --kill-others-on-fail \"yarn start:dev:server\" \"yarn start:client\"",
     "start:prod:server": "cd server && yarn start",
     "start:client": "cd client && yarn start",
     "start:dev:server": "cd server && yarn dev"
-  },
-  "engines": {
-    "node": "^9.3.0",
-    "yarn": "^1.5.1"
   },
   "cacheDirectories": [
     "node_modules",
@@ -34,10 +31,7 @@
     "prettier": "^1.11.1"
   },
   "lint-staged": {
-    "**/*.{js,jsx,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "**/*.{js,jsx,json,css}": ["prettier --write", "git add"]
   },
   "dependencies": {
     "nodemon": "^1.19.1"
