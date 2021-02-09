@@ -34,6 +34,6 @@
     "**/*.{js,jsx,json,css}": ["prettier --write", "git add"]
   },
   "dependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^2.0.7"
   }
 }
