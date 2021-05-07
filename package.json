@@ -14,7 +14,7 @@
     "start:dev:server": "cd server && yarn dev"
   },
   "engines": {
-    "node": "12.x"
+    "node": "10.16.x"
   },
   "cacheDirectories": [
     "node_modules",
