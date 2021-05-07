@@ -30,9 +30,6 @@
     "concurrently": "^3.5.1",
     "husky": "^0.14.3"
   },
-  "lint-staged": {
-    "**/*.{js,jsx,json,css}": ["git add"]
-  },
   "dependencies": {
     "nodemon": "^2.0.7"
   }
