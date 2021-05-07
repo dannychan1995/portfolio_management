@@ -6,7 +6,6 @@
   "parserOptions": { "ecmaVersion": 8 },
   "extends": [
     "eslint:recommended",
-    "plugin:jest/recommended",
-    "plugin:prettier/recommended"
+    "plugin:jest/recommended"
   ]
 }
